@@ -1,0 +1,64 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="wrap mt-5 mb-5">
+	<div class="container">
+		<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
+			<div class="container-fluid">
+			  <div class="d-flex ms-auto">
+				<a href="create/" style="text-decoration: none;"><button class="btn btn-success" type="submit">Создать мероприятие</button></a>
+			  </div>
+			</div>
+		</nav>
+	</div>
+</div>
+
+
+<div class="container">
+	<h2 class="">Предстоящие мероприятия</h2>
+	<div class="row row-cols-1 row-cols-md-4 g-4 mt-2 mb-5">
+	{% for event in events %}
+		{% if event.status == "0" %}
+		<div class="col">
+		<div class="card">
+			<div class="" style="display: flex; position: absolute; left: 12px; top: 12px; font-style: normal; font-weight: 700; font-size: 11px; line-height: 12px;
+			letter-spacing: .06em;
+			text-transform: uppercase;
+			padding: 6px 10px;
+			background: #fff;
+			border-radius: 20px;
+			color: #2185fb;">{{ event.wait }}</div>
+			<img src="/media/{{ event.thumb }}" class="card-img-top" alt="..." height="188px">
+			<div class="card-body">
+			<a href="{{ event.id }}"><h5 class="card-title" href="{{ event.id }}">{{ event.title }}</h5></a>
+			<p class="card-text">{{ event.desc|slice:":64" }}</p>
+			</div>
+			<div class="card-footer">
+				<small class="text-muted">{{ event.date|date:"d N" }}, с {{ event.start_time|time:"H:i" }} до {{ event.end_time|time:"H:i" }}</small>
+			</div>
+		</div>
+		</div>
+		{% endif %}
+	{% endfor %}
+	</div>
+	<h2>Прошедшие мероприятия</h2>
+	<div class="row row-cols-1 row-cols-md-4 g-4 mt-2 mb-2">
+		{% for event in events %}
+			{% if event.status == "2" %}
+			<div class="col">
+			<div class="card">
+				<img src="/media/{{ event.thumb }}" class="card-img-top" alt="..." height="188px">
+				<div class="card-body">
+				<a href="{{ event.id }}"><h5 class="card-title" href="{{ event.id }}">{{ event.title }}</h5></a>
+				<p class="card-text">{{ event.desc|slice:":64" }}</p>
+				</div>
+				<div class="card-footer">
+					<small class="text-muted">{{ event.date|date:"d N" }}, с {{ event.start_time|time:"H:i" }} до {{ event.end_time|time:"H:i" }}</small>
+				</div>
+			</div>
+			</div>
+			{% endif %}
+		{% endfor %}
+		</div>
+</div>
+{% endblock content %}

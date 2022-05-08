@@ -1,0 +1,48 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="mt-5">
+</div>
+<div class="container mt-5">
+    {% with entry.ee.all|first as e %}
+    <a href="/events/{{ pk }}">Назад</a>
+    {% endwith %}
+    <div class="row row-cols-1 row-cols-md-1 g-4">
+        {% for e in ee %}
+        {% if e.permission == 0 %}
+        <div class="col">
+            <div class="card h-100 row" style="flex-direction:row!important">
+                <div class="col-2 p-4">
+                    <a href="/members/{{ e.user.user_id }}/">
+                    <img src="/media/{{ e.user.photo}}" class="" style="width: 150px; height: 150px;">
+                    </a>
+                </div>
+                <div class="col-8 pt-4">
+                    <div class="ms-5">
+                    <a href="/members/{{ e.user.user_id }}/">
+                    <h4 class="app-heading-4">{{ e.user.user.first_name }} {{ e.user.user.last_name }}</h4>
+                    </a>
+                    Пол: {% if e.user.gender == "male" %}Мужской {% else %}Женский{% endif %}<br>
+                    Дата рождения: {{ e.user.birthday }}<br>
+                    Организация: {{ e.user.org }}<br>
+                    Должность/класс: {{ e.user.job }}<br>
+                    </div>
+                </div>
+                <div class="col-2 pt-4">
+                    Email: {{ e.user.user.email }}<br>
+                    Телефон: {{ e.user.phone }}<br>
+                    <form action="add/" method="post">
+                        {% csrf_token %}
+                        <input type="hidden" value="{{ e.id }}" name="id">
+                        <button class="btn btn-outline-success">Пригласить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,162 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=<0ab80543-792c-4a8d-a353-9e37b799ac1c>&lang=ru_RU"
+    type="text/javascript">
+    </script>
+<div class="mt-5">
+</div>
+<div class="container">
+    <a href="/events/" >Назад</a>
+    <div class="row mt-3">
+        <div class="col-3">
+            <div class="card">
+                <img src="/media/{{ event.thumb }}" class="card-img-top" alt="..." height="188px">
+                <div class="card-body">
+                <p class="card-text">Участников: {{ request_count }}</p>
+                </div>
+            </div>
+            {% if q == "1" %}
+            <div class="bottom-0 end-0 mt-3" style="z-index: 11">
+                <div class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3500">
+                    <div class="d-flex">
+                      <div class="toast-body">
+                        Заявка отправлена
+                      </div>
+                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                  </div>
+              </div>
+            {% endif %}
+
+            {% if a %}
+                {% if event.status != "2" %}
+                <a href="delete"><button class="btn btn-outline-danger bg-none mt-3 w-100">Завершить мероприятие</button></a>
+                {% endif %}
+                <button class="btn-outline-primary bg-none mt-3 w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">Участники</button>
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">Участники</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            {% for e in ee %}
+                            {% if e.permission == 1 %}
+                            <a href="/members/{{ e.user_id }}" target="_blank"><img src="/media/{{ e.user.photo }}" class="rounded-circle" width="24px" height="24px">  {{ e.user.user.first_name }} {{ e.user.user.last_name }}</a><br>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% if event.acesss == "1" %}
+                <a href="prof"><button class="btn btn-outline-success bg-none mt-3 w-100">Заявки</button></a>
+                {% endif %} 
+            {% elif event.status != "2" %}
+                {% if d == 2 %}
+                <form method="post" enctype="multipart/form-data" action="request/">
+                    {% csrf_token %}
+                    <input type="hidden" name="event" value="{{ event.id }}">
+                    <button class="btn btn-outline-success bg-none mt-3 w-100" type="submit">Подать заявку</button>
+                </form>
+                {% endif %}
+            {% endif %}
+            {% if d == 1 %}
+                Вы участвуваете
+            {% endif %}
+            {% if d == 4 %}
+                Ваша заявка на рассмотрении
+            {% endif %}
+            {% if event.event_type == "1" %}
+                <form id="form">
+                    <div class="field-wrapper">
+                        <input name="room" type="hidden" value="{{ event.id }}"/>
+                        <input type="submit" value="Зайти в конференцию" class="btn btn-success mt-3 w-100"/>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+        <div class="col-9">
+            <h2><strong>{{ event.title }}</strong></h2>
+            <div class="row">
+                <div class="col-8">
+                    <div class="card px-3 pt-2">
+                        <h5><strong>Основная информация</strong></h5>
+                            <a href="/members/{{ event.user_id }}"><img src="/media/{{ profile.photo }}" class="rounded-circle" width="24px" height="24px">  {{ profile.user.first_name }} {{ profile.user.last_name }}</a>
+                        <div>   
+                            <i class="bi bi-geo-alt" style="font-size: 18px;"></i><span>{% if event.event_type == "0" %} Оффлайн {% else %} Онлайн {% endif %}</span>
+                        </div>
+                        <div>
+                            <i class="bi bi-calendar-check" style="font-size: 18px;"></i>  {{ event.date|date:"d N" }}, с {{ event.start_time|time:"H:i" }} до {{ event.end_time|time:"H:i" }}
+                        </div>
+                        <div>
+                            <i class="bi bi-archive" style="font-size: 18px;"></i>{% if event.acesss == "0" %} Открытая регистрация {% else %} Регистрация по заявкам {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card px-3 pt-2">
+                        <h5><strong>Контакные данные</strong></h5>
+                        <p>{{ profile.user.email}}</p>
+                        <p>{{ profile.phone}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card mt-3 px-3 pt-2">
+                <h5><strong>Описание</strong></h5>
+                <p>{{ event.desc }}</p>
+            </div>
+            {% if event.event_type == "0" %}
+            <div id="map{{ event.id }}" style="width: 100%; height: 450px; margin-top:50px;"></div>
+            {% endif %}
+        </div>
+    </div>
+    
+</div>
+<script type="text/javascript">
+    ymaps.ready(init);
+    var myMap{{ event.id }};
+        function init () {
+        var myMap = new ymaps.Map("map{{ event.id }}", {
+            center: [{{ event.x }}, {{ event.y }}],
+            zoom: 17
+            }, {
+            searchControlProvider: 'yandex#search'
+            }),
+            myPlacemark = new ymaps.Placemark([{{ event.x }}, {{ event.y }}], {
+            });
+            myMap.geoObjects.add(myPlacemark);
+                   ;
+            }
+</script>
+<script>
+    let form = document.getElementById('form')
+
+    let handleSubmit = async (e) => {
+        e.preventDefault()
+        let room = e.target.room.value.toUpperCase()
+        let name = '{% if user.is_authenticated %}{{ user.username }}{% else %}ktoto{% endif %}'
+
+        let response = await fetch(`/get_token/?channel=${room}`)
+        let data = await response.json()
+
+        let UID = data.uid
+        let token = data.token
+
+        sessionStorage.setItem('UID', UID)
+        sessionStorage.setItem('token', token)
+        sessionStorage.setItem('room', room)
+        sessionStorage.setItem('name', name)
+
+        window.open('/room/', '_self')
+    }
+    form.addEventListener('submit', handleSubmit)
+</script>
+
+{% endblock content %}

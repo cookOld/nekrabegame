@@ -1,0 +1,134 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+
+<script src="https://api-maps.yandex.ru/2.1/?apikey=<0ab80543-792c-4a8d-a353-9e37b799ac1c>&lang=ru_RU"
+    type="text/javascript"></script>
+<div class="mt-5">
+
+</div>
+<div class="container">
+<a href="/events/">Назад</a>
+<form  method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card bg-white px-5 pt-4">
+        <h2>Основная информация</h2>
+        <input class="form-control" type="text" name="title" id="zag" placeholder="Введите название мероприятия" required><br>
+        <strong>Доступность:</strong>
+        <div class="row mb-5">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="flexRadioDefault1" checked name="access" value="0" required>
+                <label class="form-check-label" for="flexRadioDefault1">
+                    Буду рад всем гостям
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="flexRadioDefault2" name="access" value="1" required>
+                <label class="form-check-label" for="flexRadioDefault2">
+                    Хочу подтверждать заявки и отбирать участников
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card bg-white px-5 pt-4 mt-5">
+        <h2>Баннер и описание</h2>
+        <div class="input-group mb-3">
+            <label class="input-group-text" for="inputGroupFile01">Баннер мероприятия:</label>
+            <input type="file" class="form-control" id="inputGroupFile01" name="photo" accept="image/*" required>
+        </div>
+        <strong>Описание мероприятия</strong>
+        <textarea id="textarea-char-counter" class="form-control md-textarea overflow-auto mb-5" length="355" rows="9" name="desc" placeholder="Описание" required></textarea>
+    </div>
+
+    <div class="card bg-white px-5 pt-4 mt-5">
+        <h2>Место и время</h2>
+        <strong>Место</strong>
+        <div class="row">
+            <div class="col-6">
+                    <input type="radio" class="btn-check" name="event_type" id="success-outlined" autocomplete="off" value="0">
+                    <label class="btn btn-outline-primary" for="success-outlined" data-bs-toggle="modal" data-bs-target="#exampleModal">Выбрать площадку</label>
+                    <input type="radio" class="btn-check ms-2" name="event_type" id="danger-outlined" autocomplete="off" value="1">
+                    <label class="btn btn-outline-primary ms-2" for="danger-outlined">Онлайн мероприятие</label>
+                    <input type="hidden" name="x" value="0" class="inpx">
+                    <input type="hidden" name="y" value="0" class="inpy">
+            </div>
+        </div>
+        <strong class="mt-3">Выбор времени</strong>
+        <div class="row">
+            <div class="col-6">
+                <p><label for="id_date">Дата мероприятия:</label> <input type="date" name="date" maxlength="254" id="date" required></p>
+            </div>
+            <div class="col-6">
+                <label for="appt">Время начала:</label>
+                <input type="time" id="appt" name="start_time" required>
+
+                <label for="appt">Время окончания:</label>
+                <input type="time" id="appt" name="end_time" required>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Выбор без выбора</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="map" style="width: 100%; height: 600px"></div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  <div>
+<button type="submit" class="btn btn-primary mt-5">Создать</button>
+
+
+<script type="text/javascript">
+    var sel = document.querySelector('select')
+    </script>
+    <div id="map" style="width: 100%; height: 600px; margin-top:20px"></div>
+    <script type="text/javascript">
+    ymaps.ready(init);
+    var myMap;
+    var x = document.querySelector('.inpx');
+    var y = document.querySelector('.inpy');
+    function init () {
+        myMap = new ymaps.Map("map", {
+            center: [62.03389, 129.73306],
+            zoom: 13,
+            controls: []
+        }, {
+            searchControlProvider: 'yandex#search',
+            yandexMapDisablePoiInteractivity: true
+        });
+        myMap.events.add('click', function (e) {
+            if (!myMap.balloon.isOpen()) {
+                var coords = e.get('coords');
+                x.value = coords[0].toPrecision(10);
+                y.value = coords[1].toPrecision(10);
+                console.log(x.value);
+                console.log(y.value);
+                myMap.balloon.open(coords, {
+                    contentHeader:'Указано',
+                });
+            }
+            else {
+                myMap.balloon.close();
+            }
+        });
+        myMap.events.add('contextmenu', function (e) {
+            myMap.hint.open(e.get('coords'), 'Кто-то щелкнул правой кнопкой');
+        });
+        myMap.events.add('balloonopen', function (e) {
+            myMap.hint.close();
+        });
+    };
+    </script>
+</form>
+</div>
+{% endblock content %}

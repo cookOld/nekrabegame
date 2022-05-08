@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-5"></div>
+<div class="card text-center mx-auto" style="width: 24rem;">
+  <form method="post">
+    {% csrf_token %}
+  <div class="card-body">
+    {% if q == "1" %}
+            <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+                <div class="toast align-items-center text-white bg-success border-0 show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="3500">
+                    <div class="d-flex">
+                      <div class="toast-body">
+                        Пользователь создан
+                      </div>
+                      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                  </div>
+              </div>
+    {% endif %}
+    <h2 class="">Авторизация</h2>
+    {% if form.errors %}
+      <p>Your username and password didn't match. Please try again.</p>
+    {% endif %}
+    <div class="mb-3">
+      <input class="form-control" type="text" placeholder="Login" aria-label="default input example" name="username" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150" required="" id="id_username">
+    </div>
+    <div class="mb-3">
+      <input class="form-control" placeholder="Password" aria-label="default input example" type="password" name="password" autocomplete="current-password" required="" id="id_password">
+    </div>
+    <button type="submit" class="btn btn-primary">Войти</button>
+  </div>
+</form>
+</div>
+
+{% endblock content %}

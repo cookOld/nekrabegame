@@ -1,0 +1,143 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="wrap">
+    <div class="container mt-5">
+        <div class="row mt-5 flex-column flex-lg-row">
+            <div class="col mb-3">
+                <div class="card" style="height: 100%">
+                <div class="my-auto">
+                  <div class="card-body">
+                    <h5 class="card-title">Участникам</h5>
+                    <p class="card-text">Станьте участником, чтобы помогать другим и получать уникальный опыт</p>
+                    <a href="accounts/signup/" class="btn btn-primary">Стать участником</a>
+                  </div>
+                </div>
+                </div>
+            </div>
+              <div class="col mb-3 d-none d-lg-block">
+                <div class="row mb-3">
+                <div class="col-sm-6">
+                    <div class="card" style="height: 100%">
+                      <div class="card-body">
+                        <h5 class="card-title">#</h5>
+                        <p class="card-text">Найдите мероприятие или проект в системе</p>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card" style="height: 100%">
+                      <div class="card-body">
+                        <h5 class="card-title">#</h5>
+                        <p class="card-text">Оставьте заявку на участие в мероприятие</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card" style="height: 100%">
+                          <div class="card-body">
+                            <h5 class="card-title">#</h5>
+                            <p class="card-text">Станьте добровольцем в команде единомышленников</p>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card" style="height: 100%">
+                          <div class="card-body">
+                            <h5 class="card-title">#</h5>
+                            <p class="card-text">Ваш опыт сохранится в электронном портфолио</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>    
+        </div>
+
+        <div class="row mt-3 flex-column flex-lg-row">
+            
+              <div class="col mb-3 d-none d-lg-block">
+                <div class="row mb-3">
+                <div class="col-sm-6">
+                    <div class="card" style="height: 100%">
+                      <div class="card-body">
+                        <h5 class="card-title">#</h5>
+                        <p class="card-text">Создайте мероприятие и вакансии для добровольцев</p>
+                      </div>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="card" style="height: 100%">
+                      <div class="card-body">
+                        <h5 class="card-title">#</h5>
+                        <p class="card-text">Найдите тех, кто поможет в вашем добром деле</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="card" style="height: 100%">
+                          <div class="card-body">
+                            <h5 class="card-title">#</h5>
+                            <p class="card-text">Отберите волонтёров и пообщайтесь с ними</p>
+                          </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="card" style="height: 100%">
+                          <div class="card-body">
+                            <h5 class="card-title">#</h5>
+                            <p class="card-text">Оцените работу волонтёров после мероприятия</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+            <div class="col mb-3">
+                <div class="card" style="height: 100%">
+                <div class="my-auto">
+                  <div class="card-body">
+                    <h5 class="card-title">Организаторам</h5>
+                    <p class="card-text">Зарегистрируйтесь, как организатор, чтобы получать поддержку на развитие инициатив</p>
+                    <a href="accounts/signup/" class="btn btn-primary">Стать организаторам</a>
+                  </div>
+                </div>
+                </div>
+            </div>    
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                    <h5 class="card-title">Пользователей в системе:</h5>
+                    <h2 style="font-size: 40px; line-height: 48px; color: #1e1e2f; font-weight: 700;">{{ count_profiles }}</h2>
+                    <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                    <h5 class="card-title">Проведено мероприятий:</h5>
+                    <h2 style="font-size: 40px; line-height: 48px; color: #1e1e2f; font-weight: 700;">{{ count_2_events }}</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card h-100">
+                    <div class="card-body">
+                    <h5 class="card-title">Предстоящие Мероприятия:</h5>
+                    <h2 style="font-size: 40px; line-height: 48px; color: #1e1e2f; font-weight: 700;">{{ count_1_events }}</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock content %}
+

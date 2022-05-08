@@ -1,0 +1,36 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-5">
+</div>
+<div class="container mt-5">
+    <a href="/">Назад</a><br>
+    {% if a %}
+        <p><a href="{% url 'logout' %}">Log out</a></p>
+    {% endif %}
+    <div class="row row-cols-1 row-cols-md-1 g-4">
+        <div class="col">
+            <div class="card h-100 row" style="flex-direction:row!important">
+                <div class="col-2 p-4">
+                    <a href="/members/{{ profile.user_id }}/">
+                    <img src="/media/{{ profile.photo}}" class="" style="width: 150px; height: 150px;">
+                    </a>
+                </div>
+                <div class="col-8 pt-4">
+                    <a href="/members/{{ profile.user_id }}/">
+                    <h4 class="app-heading-4">{{ profile.user.first_name }} {{ profile.user.last_name }}</h4>
+                    </a>
+                    Пол: {% if profile.gender == "male" %}Мужской {% else %}Женский{% endif %}<br>
+                    Дата рождения: {{ profile.birthday }}<br>
+                    Организация: {{ profile.org }}<br>
+                    Должность/класс: {{ profile.job }}<br>
+                </div>
+                <div class="col-2 pt-4">
+                    Email: {{ profile.user.email }}<br>
+                    Телефон: {{ profile.phone }}<br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'base/main.html' %}
+{% load static %}
+{% block content %}
+<div class="mt-5"></div>
+    
+    <div class="card mx-auto" style="width: 24rem;">
+        <div class="card-body">
+            <div class="text-center"><h1 class="">Регистрация</h1></div>
+            
+            <form action="" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <p><label for="id_username">Логин:</label> <input type="text" name="username" maxlength="150" required="" id="id_username" required> <span class="helptext">
+                <p><label for="id_first_name">Имя:</label> <input type="text" name="first_name" maxlength="150" id="id_first_name" required></p>
+                <p><label for="id_last_name">Фамилия:</label> <input type="text" name="last_name" maxlength="150" id="id_last_name" required></p>
+                <p><label for="id_email">Email:</label> <input type="email" name="email" maxlength="254" id="id_email" required></p>
+                <p><label for="id_phone">Телефон:</label> <input type="tel" name="phone" maxlength="254" id="id_phone" required></p>
+                <p>Ваш пол:
+                   <input type="radio" id="contactChoice1" name="gender" value="male" required>
+                   <label for="contactChoice1">Мужской</label>
+                   <input type="radio" id="contactChoice2" name="gender" value="female" required>
+                   <label for="contactChoice2">Женский</label>
+                </p>
+                <p><label for="id_birthday">Дата рождения:</label> <input type="date" name="birthday" maxlength="254" id="birthday" required></p>
+                <p><label for="id_password">Пароль:</label> <input type="password" name="password" required="" id="id_password" required></p>
+                <p><label for="id_password2">Повторите пароль:</label> <input type="password" name="password2" required="" id="id_password2" required></p>
+                <p><label for="id_photo">Ваша фотография:</label> <input type="file" name="photo" accept="image/*" id="id_photo" required></p>
+                <p><label for="id_org">Организация</label> <input type="text" name="org" maxlength="150" id="org" required></p>
+                <p><label for="id_job">Должность/класс</label> <input type="text" name="job" maxlength="150" id="job" required></p>
+                <p><input type="submit" value="Создать"></p>
+            </form>
+        </div>
+    </div>
+
+    
+{% endblock content %}
