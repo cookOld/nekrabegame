@@ -61,10 +61,10 @@ WSGI_APPLICATION = 'yourleaf.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u1660361_default',
-        'USER': 'u1660361_default',
-        'PASSWORD':'8TZpd9krI8MwC2vp',
-        'HOST':'localhost',
+        'NAME': 'natribu.org',
+        'USER': 'natribu.org',
+        'PASSWORD':'natribu.org',
+        'HOST':'natribu.org',
         'PORT': '3306',
     }
 }
